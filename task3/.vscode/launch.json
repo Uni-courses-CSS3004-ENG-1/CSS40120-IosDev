@@ -1,0 +1,11 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run ATM Simulator",
+      "type": "dart",
+      "request": "launch",
+      "program": "bin/task3.dart"
+    }
+  ]
+}
