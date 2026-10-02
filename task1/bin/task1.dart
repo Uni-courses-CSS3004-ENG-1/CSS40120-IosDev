@@ -1,5 +1,4 @@
-// Task 1 — Dart basics practice
-// Source: main.dart (warm-up + 5 tasks)
+// Task 1 — Dart basics practice (simplified)
 
 void main() {
   warmUp();
@@ -36,7 +35,7 @@ void main() {
   }
 }
 
-// Warm-up from the original file: variables, null safety, loops.
+// Warm-up: variables, null safety.
 void warmUp() {
   String name = "Bekzat";
   int age = 25;
@@ -46,23 +45,19 @@ void warmUp() {
   print("name : $name\nage: $age y.o.\ngpa: $gpa\nis Teacher: ${!isStudent}");
 
   String text1 = "Hello";
-  // String nullText = null; not works
-  // ignore: avoid_init_to_null — the explicit null is the point of the line above
-  String? text2 = null;
+  // String nullText = null; // error: plain String can't be null
+  String? text2; // nullable, starts as null
   print('text1: $text1');
   print('text2: $text2');
 
-  int length1 = text1.length;
-  int length2 = text2?.length ?? 0;
-  print(length1);
-  print(length2);
+  print(text1.length);
+  print(text2?.length ?? 0);
 
   String confirmedText = text2 ?? "default";
   print("confirmed $confirmedText length: ${confirmedText.length}");
 }
 
 // TASK 1
-// Output multiplication table 1-10 for a given digit.
 void printMultiplicationTable(int digit) {
   print("MULTIPLICATION TABLE for digit $digit");
   for (int i = 1; i <= 10; i++) {
@@ -71,36 +66,36 @@ void printMultiplicationTable(int digit) {
 }
 
 // TASK 2
-// Next day for a "dd.MM.yyyy" string, or "invalid date" if the input is wrong.
 String nextDay(String date) {
   List<String> parts = date.split('.');
   if (parts.length != 3) return "invalid date";
 
-  int? day = int.tryParse(parts[0]);
-  int? month = int.tryParse(parts[1]);
-  int? year = int.tryParse(parts[2]);
-  if (day == null || month == null || year == null) return "invalid date";
+  // Bad text becomes 0, and 0 is rejected by the check below.
+  int day = int.tryParse(parts[0]) ?? 0;
+  int month = int.tryParse(parts[1]) ?? 0;
+  int year = int.tryParse(parts[2]) ?? 0;
 
   if (year < 1 || month < 1 || month > 12) return "invalid date";
   if (day < 1 || day > daysInMonth(month, year)) return "invalid date";
 
-  int newDay = day + 1;
-  int newMonth = month;
-  int newYear = year;
+  // Move to tomorrow.
+  day++;
 
-  if (newDay > daysInMonth(month, year)) {
-    newDay = 1;
-    newMonth++;
-    if (newMonth > 12) {
-      newMonth = 1;
-      newYear++;
-    }
+  // Day too big? Go to the 1st of next month.
+  if (day > daysInMonth(month, year)) {
+    day = 1;
+    month++;
   }
 
-  return "${pad(newDay)}.${pad(newMonth)}.${newYear.toString().padLeft(4, '0')}";
+  // Month too big? Go to January of next year.
+  if (month > 12) {
+    month = 1;
+    year++;
+  }
+
+  return "${pad(day)}.${pad(month)}.$year";
 }
 
-// 2000 and 2400 are leap years, 2100 / 2200 / 2300 are not.
 bool isLeapYear(int year) {
   return year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
 }
@@ -114,42 +109,32 @@ int daysInMonth(int month, int year) {
 String pad(int value) => value.toString().padLeft(2, '0');
 
 // TASK 3
-// Count the vowels in a string.
 int countVowels(String text) {
-  String vowels = "aeiou";
   int count = 0;
-  for (int i = 0; i < text.length; i++) {
-    if (vowels.contains(text[i].toLowerCase())) {
-      count++;
-    }
+  for (String letter in text.toLowerCase().split('')) {
+    if ("aeiou".contains(letter)) count++;
   }
   return count;
 }
 
 // TASK 4
-// Manual min & max finder — no built-in reduce/min/max.
 int findMax(List<int> numbers) {
   int max = numbers[0];
-  for (int i = 1; i < numbers.length; i++) {
-    if (numbers[i] > max) {
-      max = numbers[i];
-    }
+  for (int n in numbers) {
+    if (n > max) max = n;
   }
   return max;
 }
 
 int findMin(List<int> numbers) {
   int min = numbers[0];
-  for (int i = 1; i < numbers.length; i++) {
-    if (numbers[i] < min) {
-      min = numbers[i];
-    }
+  for (int n in numbers) {
+    if (n < min) min = n;
   }
   return min;
 }
 
 // TASK 5
-// Prime number checker.
 bool isPrime(int number) {
   if (number < 2) return false;
   for (int i = 2; i * i <= number; i++) {

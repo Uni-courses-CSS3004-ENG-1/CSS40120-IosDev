@@ -26,7 +26,7 @@ void main() {
     orderId: "ORD-004",
     itemPrice: 25000.0,
     promoCode: "SAVE10",
-    deliveryFee: 0.0,
+    deliveryFee: 0,
   );
 }
 
@@ -39,6 +39,9 @@ double processOrder({
 }) {
   // A missing delivery fee falls back to 500.0 ₸ via ??.
   double fee = deliveryFee ?? defaultDeliveryFee;
+  if(fee < 500){
+    fee = 502.00;
+  }
 
   bool promoApplied = promoCode == validPromoCode;
   double discount = promoApplied ? itemPrice * 0.10 : 0.0;
