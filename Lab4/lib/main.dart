@@ -32,8 +32,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
   static const int _defaultFollowers = 1240;
   static const int _defaultLikes = 87;
 
-  final int _followers = _defaultFollowers;
+  bool _isFollowing = false;
+  int _followers = _defaultFollowers;
   final int _likes = _defaultLikes;
+
+  void _toggleFollow() {
+    setState(() {
+      _isFollowing = !_isFollowing;
+      _followers += _isFollowing ? 1 : -1;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,6 +109,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       _StatTile(label: 'Likes', value: _likes),
                       const _StatTile(label: 'Posts', value: 42),
                     ],
+                  ),
+                  const SizedBox(height: 24),
+                  SizedBox(
+                    width: double.infinity,
+                    child: _isFollowing
+                        ? OutlinedButton.icon(
+                            key: const Key('followButton'),
+                            onPressed: _toggleFollow,
+                            icon: const Icon(Icons.check),
+                            label: const Text('Following'),
+                          )
+                        : FilledButton.icon(
+                            key: const Key('followButton'),
+                            onPressed: _toggleFollow,
+                            icon: const Icon(Icons.person_add),
+                            label: const Text('Follow'),
+                          ),
                   ),
                 ],
               ),
