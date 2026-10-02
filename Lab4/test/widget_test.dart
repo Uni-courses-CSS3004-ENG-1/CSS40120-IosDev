@@ -47,4 +47,21 @@ void main() {
     await tester.pump();
     expect(find.text('87'), findsOneWidget);
   });
+
+  testWidgets('Reset restores default state', (tester) async {
+    await tester.pumpWidget(const ProfileApp());
+
+    await tester.tap(find.byKey(const Key('followButton')));
+    await tester.tap(find.byKey(const Key('likeButton')));
+    await tester.pump();
+    expect(find.text('Following'), findsOneWidget);
+    expect(find.text('88'), findsOneWidget);
+
+    await tester.tap(find.byKey(const Key('resetButton')));
+    await tester.pump();
+    expect(find.text('Follow'), findsOneWidget);
+    expect(find.text('1240'), findsOneWidget);
+    expect(find.text('87'), findsOneWidget);
+    expect(find.byIcon(Icons.favorite_border), findsOneWidget);
+  });
 }

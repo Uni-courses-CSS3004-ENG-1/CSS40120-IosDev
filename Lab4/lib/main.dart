@@ -51,6 +51,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
   }
 
+  void _reset() {
+    setState(() {
+      _isFollowing = false;
+      _isLiked = false;
+      _followers = _defaultFollowers;
+      _likes = _defaultLikes;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
@@ -147,6 +156,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                     ],
+                  ),
+                  const SizedBox(height: 12),
+                  SizedBox(
+                    width: double.infinity,
+                    child: TextButton.icon(
+                      key: const Key('resetButton'),
+                      onPressed: _reset,
+                      icon: const Icon(Icons.refresh),
+                      label: const Text('Reset'),
+                    ),
                   ),
                 ],
               ),
