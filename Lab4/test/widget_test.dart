@@ -11,5 +11,7 @@ void main() {
     expect(find.byType(CircleAvatar), findsOneWidget);
     expect(find.text('Abror'), findsOneWidget);
     expect(find.text('Flutter & iOS Developer'), findsOneWidget);
+    expect(find.text('1240'), findsOneWidget);
+    expect(find.text('87'), findsOneWidget);
   });
 }
