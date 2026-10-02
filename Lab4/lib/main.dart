@@ -33,13 +33,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
   static const int _defaultLikes = 87;
 
   bool _isFollowing = false;
+  bool _isLiked = false;
   int _followers = _defaultFollowers;
-  final int _likes = _defaultLikes;
+  int _likes = _defaultLikes;
 
   void _toggleFollow() {
     setState(() {
       _isFollowing = !_isFollowing;
       _followers += _isFollowing ? 1 : -1;
+    });
+  }
+
+  void _toggleLike() {
+    setState(() {
+      _isLiked = !_isLiked;
+      _likes += _isLiked ? 1 : -1;
     });
   }
 
@@ -111,21 +119,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ],
                   ),
                   const SizedBox(height: 24),
-                  SizedBox(
-                    width: double.infinity,
-                    child: _isFollowing
-                        ? OutlinedButton.icon(
-                            key: const Key('followButton'),
-                            onPressed: _toggleFollow,
-                            icon: const Icon(Icons.check),
-                            label: const Text('Following'),
-                          )
-                        : FilledButton.icon(
-                            key: const Key('followButton'),
-                            onPressed: _toggleFollow,
-                            icon: const Icon(Icons.person_add),
-                            label: const Text('Follow'),
-                          ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _isFollowing
+                            ? OutlinedButton.icon(
+                                key: const Key('followButton'),
+                                onPressed: _toggleFollow,
+                                icon: const Icon(Icons.check),
+                                label: const Text('Following'),
+                              )
+                            : FilledButton.icon(
+                                key: const Key('followButton'),
+                                onPressed: _toggleFollow,
+                                icon: const Icon(Icons.person_add),
+                                label: const Text('Follow'),
+                              ),
+                      ),
+                      const SizedBox(width: 12),
+                      IconButton.filledTonal(
+                        key: const Key('likeButton'),
+                        onPressed: _toggleLike,
+                        iconSize: 28,
+                        icon: Icon(
+                          _isLiked ? Icons.favorite : Icons.favorite_border,
+                          color: _isLiked ? Colors.red : null,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

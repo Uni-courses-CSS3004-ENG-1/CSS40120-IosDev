@@ -31,4 +31,20 @@ void main() {
     expect(find.text('Follow'), findsOneWidget);
     expect(find.text('1240'), findsOneWidget);
   });
+
+  testWidgets('Like increments and decrements counter', (tester) async {
+    await tester.pumpWidget(const ProfileApp());
+
+    expect(find.text('87'), findsOneWidget);
+    expect(find.byIcon(Icons.favorite_border), findsOneWidget);
+
+    await tester.tap(find.byKey(const Key('likeButton')));
+    await tester.pump();
+    expect(find.text('88'), findsOneWidget);
+    expect(find.byIcon(Icons.favorite), findsOneWidget);
+
+    await tester.tap(find.byKey(const Key('likeButton')));
+    await tester.pump();
+    expect(find.text('87'), findsOneWidget);
+  });
 }
