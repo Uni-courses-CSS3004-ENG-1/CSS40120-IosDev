@@ -13,6 +13,7 @@ class ProductDetailScreen extends StatefulWidget {
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   bool isBookmarked = false;
+  int cartCount = 0;
 
   void toggleBookmark() {
     setState(() {
@@ -20,10 +21,35 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     });
   }
 
+  // Every tap adds one more item to the cart
+  void addToCart() {
+    setState(() {
+      cartCount = cartCount + 1;
+    });
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(const SnackBar(content: Text('Added to cart')));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Product Preview')),
+      appBar: AppBar(
+        title: const Text('Product Preview'),
+        actions: [
+          // Cart icon with the total number of items added
+          Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: Badge(
+              isLabelVisible: cartCount > 0,
+              label: Text('$cartCount'),
+              child: const Icon(Icons.shopping_bag_outlined),
+            ),
+          ),
+        ],
+      ),
+      // Sticky bottom bar: stays in place while the page scrolls
+      bottomNavigationBar: buildBottomBar(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -137,6 +163,29 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         const SizedBox(height: 4),
         Text(product.description),
       ],
+    );
+  }
+
+  Widget buildBottomBar() {
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          children: [
+            // Expanded makes the button take the full width
+            Expanded(
+              child: FilledButton.icon(
+                onPressed: addToCart,
+                icon: const Icon(Icons.shopping_cart),
+                label: const Text('Add to Cart'),
+                style: FilledButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
