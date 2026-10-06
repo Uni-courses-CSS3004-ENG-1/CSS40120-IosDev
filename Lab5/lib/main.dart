@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'product.dart';
+import 'product_detail_screen.dart';
+
 void main() {
   runApp(const ProductPreviewApp());
 }
@@ -16,7 +19,7 @@ class ProductPreviewApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
         useMaterial3: true,
       ),
-      home: const Scaffold(body: Center(child: Text('Product Preview'))),
+      home: const ProductDetailScreen(product: sampleProduct),
     );
   }
 }
