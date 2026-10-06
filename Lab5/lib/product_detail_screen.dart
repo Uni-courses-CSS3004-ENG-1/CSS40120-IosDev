@@ -28,7 +28,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [buildCover()],
+          children: [buildCover(), const SizedBox(height: 16), buildInfo()],
         ),
       ),
     );
@@ -71,6 +71,72 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget buildInfo() {
+    final product = widget.product;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Row: title on the left, price on the right
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Expanded lets a long title go to the next line
+            Expanded(
+              child: Text(
+                product.title,
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Text(
+              '\$${product.price}',
+              style: const TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Colors.deepOrange,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+
+        // Row: star icon + rating
+        Row(
+          children: [
+            const Icon(Icons.star, color: Colors.amber),
+            const SizedBox(width: 4),
+            Expanded(
+              child: Text('${product.rating} (${product.reviewCount} reviews)'),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+
+        // Wrap: badges move to the next line when there is no space
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            for (final category in product.categories)
+              Chip(label: Text(category)),
+          ],
+        ),
+        const SizedBox(height: 16),
+
+        const Text(
+          'Description',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 4),
+        Text(product.description),
+      ],
     );
   }
 }
