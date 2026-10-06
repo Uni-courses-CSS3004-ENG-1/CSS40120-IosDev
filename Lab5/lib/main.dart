@@ -16,9 +16,7 @@ class ProductPreviewApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
         useMaterial3: true,
       ),
-      home: const Scaffold(
-        body: Center(child: Text('Product Preview')),
-      ),
+      home: const Scaffold(body: Center(child: Text('Product Preview'))),
     );
   }
 }
