@@ -52,9 +52,15 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       bottomNavigationBar: buildBottomBar(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [buildCover(), const SizedBox(height: 16), buildInfo()],
+        child: Center(
+          // On big screens (iPad) the content doesn't stretch too wide
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 600),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [buildCover(), const SizedBox(height: 16), buildInfo()],
+            ),
+          ),
         ),
       ),
     );
